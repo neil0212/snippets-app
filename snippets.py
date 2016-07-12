@@ -18,15 +18,15 @@ def put(name, snippet):
     logging.debug("Snippet stored successfully.")
     return name, snippet
     
-def get(name):
-    """Retrieve the snippet with a given name.
-
-    If there is no such snippet, return '404: Snippet Not Found'.
-
-    Returns the snippet.
-    """
-    logging.error("FIXME: Unimplemented - get({!r})".format(name))
-    return ""
+def get(keyword):
+    """Get a snippet with an associated name."""
+    logging.info("Get snippet {!r}".format(keyword))
+    cursor = connection.cursor()
+    command = "select keyword, message from snippets where keyword='%s'"
+    cursor.execute(command, (keyword,))
+    cursor.fetchone()
+    logging.debug("Snippet get successfully.")
+    return keyword
     
 def main():
     
