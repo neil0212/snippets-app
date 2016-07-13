@@ -18,15 +18,19 @@ def put(name, snippet):
     logging.debug("Snippet stored successfully.")
     return name, snippet
     
-def get(keyword):
-    """Get a snippet with an associated name."""
-    logging.info("Get snippet {!r}".format(keyword))
+def get(name):
+    """Get a snippet with keyword."""
+    logging.info("Get snippet from keyword{!r}".format(name))
     cursor = connection.cursor()
-    command = "select keyword, message from snippets where keyword='%s'"
-    cursor.execute(command, (keyword,))
-    cursor.fetchone()
+    command = "select keyword, message from snippets where keyword=(%s)"
+    cursor.execute(command, (name,))
+    row=cursor.fetchone()
+    connection.commit()
     logging.debug("Snippet get successfully.")
-    return keyword
+    if not row:
+        # No snippet was found with that name.
+        return "404: Snippet Not Found"
+    return row[0]
     
 def main():
     
@@ -61,15 +65,6 @@ def main():
         print("Retrieved snippet: {!r}".format(snippet))
         
         
-    # Code without argument unpacking
-    put(name="list", snippet="A sequence of things - created using []")
-
-    # Identical code which uses argument unpacking
-    arguments = {
-        "name": "list",
-        "snippet": "A sequence of things - created using []"
-                }
-    put(**arguments)
 
 if __name__ == "__main__":
     
