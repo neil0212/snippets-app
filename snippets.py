@@ -105,7 +105,7 @@ def main():
         catalog()
         print("Keywords")
     elif command == "search":
-        snippet = get(**arguments)
+        snippet = search(**arguments)
         print("Search snippet: {!r}".format(snippet))
 
 if __name__ == "__main__":
