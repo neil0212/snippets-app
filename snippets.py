@@ -85,7 +85,7 @@ def main():
     
     #subparser for search command
     logging.debug("Constructing search subparser")
-    search_parser = subparsers.add_parser("catalog", help="search keyword")
+    search_parser = subparsers.add_parser("search", help="search keyword")
     get_parser.add_argument("word", help="Search keyword")
     
     
@@ -105,6 +105,7 @@ def main():
         catalog()
         print("Keywords")
     elif command == "search":
+        snippet = get(**arguments)
         print("Search snippet: {!r}".format(snippet))
 
 if __name__ == "__main__":
