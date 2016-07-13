@@ -48,7 +48,7 @@ def search(word):
     """Search for keyword"""
     logging.info("Search for keyword")
     with connection, connection.cursor() as cursor:
-        cursor.execute("select * from snippets where message like %s",(word,))
+        cursor.execute("select * from snippets where message like '%%'|| %s||'%%'",(word,))
         list=cursor.fetchall()
         for row in list:
             print(row)
@@ -86,7 +86,7 @@ def main():
     #subparser for search command
     logging.debug("Constructing search subparser")
     search_parser = subparsers.add_parser("search", help="search keyword")
-    get_parser.add_argument("word", help="Search keyword")
+    search_parser.add_argument("word", help="Search keyword")
     
     
     arguments = parser.parse_args()
@@ -105,8 +105,8 @@ def main():
         catalog()
         print("Keywords")
     elif command == "search":
-        snippet = search(**arguments)
-        print("Search snippet: {!r}".format(snippet))
+        search(**arguments)
+        print("Done")
 
 if __name__ == "__main__":
     
